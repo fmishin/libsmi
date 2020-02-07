@@ -2232,7 +2232,7 @@ typeDeclaration:	typeName
 					((Range *)$4->listPtr->ptr)->export.maxValue.value.unsigned32 = 4294967295U;
 				    }
 				} else if (!strcmp($1, "NetworkAddress")) {
-				    setTypeName($4, smiStrdup("NetworkAddress"));
+				    setTypeName($4, "NetworkAddress");
 				    $4->export.basetype = SMI_BASETYPE_OCTETSTRING;
 				    setTypeParent($4, findTypeByModuleAndName(
 					                   thisModulePtr,

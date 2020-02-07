@@ -4203,6 +4203,7 @@ int smiInitData()
 {
     Object	    *objectPtr;
     Parser	    parser;
+	Node 		*pendingNodePtr;
     
     smiHandle->flags = 0;
     
@@ -4221,7 +4222,7 @@ int smiInitData()
      * Initialize a root Node for pending (forward referenced) nodes.
      */
     smiHandle->parserPtr = &parser;
-    parser.pendingNodePtr = addNode(NULL, 0, NODE_FLAG_ROOT, NULL);
+    pendingNodePtr = parser.pendingNodePtr = addNode(NULL, 0, NODE_FLAG_ROOT, NULL);
 
     /*
      * Initialize the top level well-known nodes, ccitt, iso, joint-iso-ccitt
@@ -4293,7 +4294,8 @@ int smiInitData()
 	addType(smiStrdup("Pointer"),
 		SMI_BASETYPE_POINTER, 0, &parser);
 
-    return (0);
+    smiFree(pendingNodePtr);
+	return (0);
 }
 
 
@@ -4600,6 +4602,7 @@ Module *loadModule(const char *modulename, Parser *parserPtr)
     char	    *path = NULL;
     SmiLanguage lang = 0;
     FILE	    *file;
+	Node		*pendingNodePtr;
 
     path = smiGetModulePath(modulename);
     if (!path) {
@@ -4647,7 +4650,7 @@ Module *loadModule(const char *modulename, Parser *parserPtr)
 	/*
 	 * Initialize a root Node for pending (forward referenced) nodes.
 	 */
-	parser.pendingNodePtr = addNode(NULL, 0, NODE_FLAG_ROOT, NULL);
+	pendingNodePtr = parser.pendingNodePtr = addNode(NULL, 0, NODE_FLAG_ROOT, NULL);
     
 	if (smiEnterLexRecursion(parser.file) < 0) {
 	    smiPrintError(&parser, ERR_MAX_LEX_DEPTH);
@@ -4670,6 +4673,8 @@ Module *loadModule(const char *modulename, Parser *parserPtr)
 	freeNodeTree(parser.pendingNodePtr);
 	smiFree(parser.pendingNodePtr);
 #endif
+	smiFree(pendingNodePtr);
+
 	smiLeaveLexRecursion();
 	smiDepth--;
 	fclose(parser.file);

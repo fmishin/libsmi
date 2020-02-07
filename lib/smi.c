@@ -685,7 +685,7 @@ char *smiValueAsString(SmiValue *smiValue,
 
 int smiInit(const char *tag)
 {
-    char *p, *pp, *tag2;
+    char *p, *pp, *tag2, *ptrTag;
 #ifdef HAVE_PWD_H
     struct passwd *pw;
 #endif
@@ -720,7 +720,7 @@ int smiInit(const char *tag)
     /* 1. set to builtin DEFAULT_SMIPATH */
     smiHandle->path = smiStrdup(DEFAULT_SMIPATH);
 
-    tag2 = smiStrdup(tag);
+    ptrTag = tag2 = smiStrdup(tag);
     if (tag2) tag2 = strtok(tag2, ":");
     if (tag2) {
 	/* 2. read global config file if present (append/prepend/replace) */
@@ -736,7 +736,7 @@ int smiInit(const char *tag)
 	}
 #endif
     }
-    smiFree(tag2);
+    smiFree(ptrTag);
 
     /* 4. evaluate SMIPATH env-var if set (append/prepend/replace) */
     p = getenv("SMIPATH");

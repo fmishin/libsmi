@@ -171,6 +171,7 @@ SmiLanguage smiGuessModuleLanguage(const char *modulename)
     }
     
     file = fopen(path, "r");
+    smiFree(path);
     if (! file) {
         return SMI_LANGUAGE_UNKNOWN;
     }

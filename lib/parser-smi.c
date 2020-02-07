@@ -4269,7 +4269,7 @@ yyreduce:
 					((Range *)(yyvsp[(4) - (4)].typePtr)->listPtr->ptr)->export.maxValue.value.unsigned32 = 4294967295U;
 				    }
 				} else if (!strcmp((yyvsp[(1) - (4)].id), "NetworkAddress")) {
-				    setTypeName((yyvsp[(4) - (4)].typePtr), smiStrdup("NetworkAddress"));
+				    setTypeName((yyvsp[(4) - (4)].typePtr), "NetworkAddress");
 				    (yyvsp[(4) - (4)].typePtr)->export.basetype = SMI_BASETYPE_OCTETSTRING;
 				    setTypeParent((yyvsp[(4) - (4)].typePtr), findTypeByModuleAndName(
 					                   thisModulePtr,
